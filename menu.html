@@ -97,29 +97,35 @@ footer{
 
 <body>
 
-<nav class="navbar navbar-expand-lg">
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
 
-<a class="navbar-brand" href="#">🍽 Foodie</a>
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQkKujThmkbUKA7_gXhAiZ-Alo8LOUjZbBFcCBR2Yte21m93x4snbJOBeM&s=10"
+                 alt="Logo"
+                 width="50"
+                 height="50"
+                 class="d-inline-block align-text-top rounded-circle">
+            Floreciss Restaurant 
+        </a>
 
-<button class="navbar-toggler bg-white" data-bs-toggle="collapse" data-bs-target="#menu">
-<span class="navbar-toggler-icon"></span>
-</button>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-<div class="collapse navbar-collapse" id="menu">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">🏠 Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">📖 About</a></li>
+                <li class="nav-item"><a class="nav-link" href="menu.html">🍽️ Menu</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">📞 Contact</a></li>
+            </ul>
+        </div>
 
-<ul class="navbar-nav ms-auto">
-
-<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-<li class="nav-item"><a class="nav-link active" href="#">Menu</a></li>
-<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-
-</ul>
-
-</div>
-
-</div>
+    </div>
 </nav>
 
 <section class="hero">
