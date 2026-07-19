@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Food Order</title>
+<title>Order Food</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,16 +17,16 @@ body{
     justify-content:center;
     align-items:center;
     padding:30px;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 .order-card{
-    max-width:900px;
     width:100%;
+    max-width:950px;
     background:#fff;
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 20px 50px rgba(0,0,0,.25);
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 
 .food-img{
@@ -40,8 +40,8 @@ body{
 }
 
 .price{
-    font-size:30px;
     color:#ff5722;
+    font-size:30px;
     font-weight:bold;
 }
 
@@ -55,11 +55,10 @@ body{
     width:45px;
     height:45px;
     border:none;
-    background:#ff5722;
-    color:white;
-    font-size:22px;
     border-radius:50%;
-    transition:.3s;
+    background:#ff5722;
+    color:#fff;
+    font-size:22px;
 }
 
 .qty-btn:hover{
@@ -67,25 +66,26 @@ body{
 }
 
 .qty{
-    font-size:26px;
-    font-weight:bold;
-    width:50px;
+    width:40px;
     text-align:center;
+    font-size:25px;
+    font-weight:bold;
 }
 
 .total{
+    color:green;
     font-size:28px;
     font-weight:bold;
-    color:green;
 }
 
 .btn-order{
     width:100%;
-    padding:15px;
-    font-size:20px;
-    border-radius:50px;
     background:#ff5722;
+    color:white;
     border:none;
+    padding:15px;
+    border-radius:40px;
+    font-size:20px;
 }
 
 .btn-order:hover{
@@ -103,7 +103,7 @@ height:250px;
 }
 
 .details{
-padding:25px;
+padding:20px;
 }
 
 }
@@ -111,6 +111,7 @@ padding:25px;
 </style>
 
 </head>
+
 <body>
 
 <div class="order-card">
@@ -119,8 +120,9 @@ padding:25px;
 
 <div class="col-lg-5">
 
-<img src="https://img.magnific.com/premium-vector/3d-cola-with-fries-cheeseburger-paper-bag_169241-10663.jpg?semt=ais_hybrid&w=740&q=80"
-class="food-img" alt="Delicious Dish">
+<img id="foodImage"
+src=""
+class="food-img">
 
 </div>
 
@@ -128,25 +130,33 @@ class="food-img" alt="Delicious Dish">
 
 <div class="details">
 
-<h2 class="fw-bold">Your Meal 🍽️</h2>
+<h2 id="foodName" class="fw-bold"></h2>
 
 <p class="text-muted">
-confirmed your tasty meal 
+Fresh • Delicious • Fast Delivery
 </p>
 
-<div class="price mb-3">
-₹199
+<div class="price">
+₹<span id="foodPrice"></span>
 </div>
 
 <hr>
 
 <h5>Customer Details</h5>
 
-<input type="text" class="form-control mb-3" placeholder="Your Name">
+<input id="name"
+type="text"
+class="form-control mb-3"
+placeholder="Your Name">
 
-<input type="tel" class="form-control mb-3" placeholder="Phone Number">
+<input id="phone"
+type="tel"
+class="form-control mb-3"
+placeholder="Phone Number">
 
-<textarea class="form-control mb-3" rows="3"
+<textarea id="address"
+class="form-control mb-3"
+rows="3"
 placeholder="Delivery Address"></textarea>
 
 <hr>
@@ -164,11 +174,16 @@ placeholder="Delivery Address"></textarea>
 </div>
 
 <h3 class="total">
-Total : ₹<span id="total">199</span>
+
+Total : ₹<span id="total">0</span>
+
 </h3>
 
-<button class="btn btn-order text-white mt-4">
+<button class="btn-order mt-3"
+onclick="placeOrder()">
+
 Place Order
+
 </button>
 
 </div>
@@ -179,26 +194,81 @@ Place Order
 
 </div>
 
+<!-- Order Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+
+      <div class="display-1">🎉</div>
+
+      <h3 class="text-success mt-2">
+        Order Placed Successfully!
+      </h3>
+
+      <p id="orderMessage"></p>
+
+      <button class="btn btn-success mt-3" data-bs-dismiss="modal">
+        OK
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 
+const params = new URLSearchParams(window.location.search);
+
+const item = params.get("item") || "Your Meal";
+const price = Number(params.get("price")) || 199;
+const img = params.get("img") || "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600";
+
+document.getElementById("foodName").innerHTML = item;
+document.getElementById("foodPrice").innerHTML = price;
+document.getElementById("foodImage").src = img;
+
 let quantity = 1;
-const price = 199;
 
 function updateTotal(){
-document.getElementById("qty").innerHTML = quantity;
-document.getElementById("total").innerHTML = quantity * price;
+    document.getElementById("qty").innerHTML = quantity;
+    document.getElementById("total").innerHTML = quantity * price;
 }
 
-function increase(){
-quantity++;
 updateTotal();
+
+function increase(){
+    quantity++;
+    updateTotal();
 }
 
 function decrease(){
-if(quantity>1){
-quantity--;
-updateTotal();
+    if(quantity > 1){
+        quantity--;
+        updateTotal();
+    }
 }
+
+function placeOrder(){
+
+    let name = document.getElementById("name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address").value.trim();
+
+    if(name=="" || phone=="" || address==""){
+        alert("Please fill all customer details.");
+        return;
+    }
+
+    document.getElementById("orderMessage").innerHTML =
+    "<strong>"+name+"</strong>, your order for <b>"+item+
+    "</b> ("+quantity+" Qty) has been placed.<br><br>Total Amount : <b>₹"+
+    (quantity*price)+"</b>";
+
+    let modal = new bootstrap.Modal(document.getElementById("successModal"));
+    modal.show();
+
 }
 
 </script>
