@@ -218,22 +218,52 @@ Place Order
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-
 const params = new URLSearchParams(window.location.search);
 
 const item = params.get("item") || "Your Meal";
-const price = Number(params.get("price")) || 199;
-const img = params.get("img") || "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600";
+const price = parseInt(params.get("price")) || 199;
 
-document.getElementById("foodName").innerHTML = item;
-document.getElementById("foodPrice").innerHTML = price;
-document.getElementById("foodImage").src = img;
+let image = "";
+
+switch(item){
+
+    case "Cheese Pizza":
+        image = "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600";
+        break;
+
+    case "Classic Burger":
+        image = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600";
+        break;
+
+    case "Italian Pasta":
+        image = "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600";
+        break;
+
+    case "Cold Drink":
+        image = "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600";
+        break;
+
+    case "Chocolate Cake":
+        image = "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600";
+        break;
+
+    case "French Fries":
+        image = "https://images.unsplash.com/photo-1550547660-d9450f859349?w=600";
+        break;
+
+    default:
+        image = "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600";
+}
+
+document.getElementById("foodName").textContent = item;
+document.getElementById("foodPrice").textContent = price;
+document.getElementById("foodImage").src = image;
 
 let quantity = 1;
 
 function updateTotal(){
-    document.getElementById("qty").innerHTML = quantity;
-    document.getElementById("total").innerHTML = quantity * price;
+    document.getElementById("qty").textContent = quantity;
+    document.getElementById("total").textContent = quantity * price;
 }
 
 updateTotal();
@@ -252,25 +282,24 @@ function decrease(){
 
 function placeOrder(){
 
-    let name = document.getElementById("name").value.trim();
-    let phone = document.getElementById("phone").value.trim();
-    let address = document.getElementById("address").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
 
-    if(name=="" || phone=="" || address==""){
+    if(name === "" || phone === "" || address === ""){
         alert("Please fill all customer details.");
         return;
     }
 
     document.getElementById("orderMessage").innerHTML =
-    "<strong>"+name+"</strong>, your order for <b>"+item+
-    "</b> ("+quantity+" Qty) has been placed.<br><br>Total Amount : <b>₹"+
-    (quantity*price)+"</b>";
+        "<strong>" + name + "</strong><br>" +
+        "Your order for <b>" + item + "</b> has been placed.<br><br>" +
+        "Quantity : <b>" + quantity + "</b><br>" +
+        "Total : <b>₹" + (quantity * price) + "</b>";
 
-    let modal = new bootstrap.Modal(document.getElementById("successModal"));
+    const modal = new bootstrap.Modal(document.getElementById("successModal"));
     modal.show();
-
 }
-
 </script>
 
 </body>
