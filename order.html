@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Order</title>
+    <!-- Including Bootstrap CSS for styling -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+</head>
+<body class="container col-md-6 col-lg-4 mt-5">
+
+    <!-- Order Customization Card -->
+    <div class="card p-3 shadow-sm">
+        <h3>Customize Your Order</h3>
+
+        <!-- Quantity Input -->
+        <label for="qty" class="form-label mt-2">Quantity</label>
+        <input type="number" id="qty" value="1" min="1" class="form-control" onchange="calculatePrice()">
+
+        <!-- Spice Level Selection -->
+        <label for="spice" class="form-label mt-3">Spice Level</label>
+        <select id="spice" class="form-control">
+            <option>Mild</option>
+            <option>Medium</option>
+            <option>Spicy</option>
+        </select>
+
+        <!-- Extra Cheese Checkbox -->
+        <div class="form-check mt-3">
+            <input type="checkbox" id="cheese" class="form-check-input" onchange="calculatePrice()">
+            <label class="form-check-label" for="cheese">
+                Extra Cheese (+₹50)
+            </label>
+        </div>
+
+        <!-- Special Instructions Textarea -->
+        <label for="note" class="form-label mt-3">Special Instructions</label>
+        <textarea id="note" class="form-control" placeholder="Example: No Onion"></textarea>
+
+        <!-- Price Display -->
+        <h4 class="mt-4">Total: ₹<span id="total">250</span></h4>
+
+        <!-- Action Button -->
+        <button class="btn btn-success mt-2 w-100" onclick="placeOrder()">
+            Add To Cart
+        </button>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const basePrice = 250;
+
+        function calculatePrice() {
+            // Get quantity and set a fallback if invalid
+            let qty = parseInt(document.getElementById("qty").value);
+            if (isNaN(qty) || qty < 1) {
+                qty = 1;
+            }
+
+            // Calculate cost per item including additions
+            let itemPrice = basePrice;
+            if (document.getElementById("cheese").checked) {
+                itemPrice += 50;
+            }
+
+            // Update total text in UI
+            let total = itemPrice * qty;
+            document.getElementById("total").innerText = total;
+        }
+
+        function placeOrder() {
+            // Collect customer configurations
+            let qty = document.getElementById("qty").value;
+            let spice = document.getElementById("spice").value;
+            let extraCheese = document.getElementById("cheese").checked ? "Yes" : "No";
+            let instructions = document.getElementById("note").value;
+            let finalPrice = document.getElementById("total").innerText;
+
+            // Confirm order details to user
+            alert(`Added to cart!\nQuantity: ${qty}\nSpice: ${spice}\nExtra Cheese: ${extraCheese}\nNotes: ${instructions || "None"}\nTotal: ₹${finalPrice}`);
+        }
+    </script>
+
+</body>
+</html>
